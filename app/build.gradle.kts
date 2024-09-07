@@ -12,7 +12,7 @@ android {
         minSdk = 27
         targetSdk = 34
         versionCode = 11
-        versionName = "2.0"
+        versionName = "2.1"
 
         // For showing build version name
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
