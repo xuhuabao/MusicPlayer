@@ -55,7 +55,10 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.backBtnPA.setOnClickListener { finish() }
+
         if(intent.data?.scheme.contentEquals("content")){
+
             songPosition = 0
             val intentService = Intent(this, MusicService::class.java)
             bindService(intentService, this, BIND_AUTO_CREATE)
@@ -70,33 +73,10 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         }
         else initializeLayout()
 
-        //audio booster feature
-        binding.boosterBtnPA.setOnClickListener {
-            val customDialogB = LayoutInflater.from(this).inflate(R.layout.audio_booster, binding.root, false)
-            val bindingB = AudioBoosterBinding.bind(customDialogB)
-            val dialogB = MaterialAlertDialogBuilder(this).setView(customDialogB)
-                .setOnCancelListener { playMusic() }
-                .setPositiveButton("OK"){self, _ ->
-                    loudnessEnhancer.setTargetGain(bindingB.verticalBar.progress * 100)
-                    playMusic()
-                    self.dismiss()
-                }
-                .setBackground(ColorDrawable(0x803700B3.toInt()))
-                .create()
-            dialogB.show()
-
-            bindingB.verticalBar.progress = loudnessEnhancer.targetGain.toInt()/100
-            bindingB.progressText.text = "Audio Boost\n\n${loudnessEnhancer.targetGain.toInt()/10} %"
-            bindingB.verticalBar.setOnProgressChangeListener {
-                bindingB.progressText.text = "Audio Boost\n\n${it*10} %"
-            }
-            setDialogBtnBackground(this, dialogB)
-        }
-
-        binding.backBtnPA.setOnClickListener { finish() }
-        binding.playPauseBtnPA.setOnClickListener{ if(isPlaying) pauseMusic() else playMusic() }
         binding.previousBtnPA.setOnClickListener { prevNextSong(increment = false) }
+        binding.playPauseBtnPA.setOnClickListener{ if(isPlaying) pauseMusic() else playMusic() }
         binding.nextBtnPA.setOnClickListener { prevNextSong(increment = true) }
+
         binding.seekBarPA.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if(fromUser) {
@@ -107,6 +87,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
             override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
         })
+
         binding.repeatBtnPA.setOnClickListener {
             if(!repeat){
                 repeat = true
@@ -153,6 +134,28 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(musicListPA[songPosition].path))
             startActivity(Intent.createChooser(shareIntent, "Sharing Music File!!"))
             
+        }
+        //audio booster feature
+        binding.boosterBtnPA.setOnClickListener {
+            val customDialogB = LayoutInflater.from(this).inflate(R.layout.audio_booster, binding.root, false)
+            val bindingB = AudioBoosterBinding.bind(customDialogB)
+            val dialogB = MaterialAlertDialogBuilder(this).setView(customDialogB)
+                .setOnCancelListener { playMusic() }
+                .setPositiveButton("OK"){self, _ ->
+                    loudnessEnhancer.setTargetGain(bindingB.verticalBar.progress * 100)
+                    playMusic()
+                    self.dismiss()
+                }
+                .setBackground(ColorDrawable(0x803700B3.toInt()))
+                .create()
+            dialogB.show()
+
+            bindingB.verticalBar.progress = loudnessEnhancer.targetGain.toInt()/100
+            bindingB.progressText.text = "Audio Boost\n\n${loudnessEnhancer.targetGain.toInt()/10} %"
+            bindingB.verticalBar.setOnProgressChangeListener {
+                bindingB.progressText.text = "Audio Boost\n\n${it*10} %"
+            }
+            setDialogBtnBackground(this, dialogB)
         }
     }
 //Important Function
