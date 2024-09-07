@@ -6,9 +6,9 @@
 
 
 <b>Some ScreenShots(Actual App Even Looks Better 😃):</b></br>
-<img src="https://github.com/HarshAndroid/MusicPlayer/blob/master/music_player_screenshots/screen_1.png" width=30% height=30%/>
-<img src="https://github.com/HarshAndroid/MusicPlayer/blob/master/music_player_screenshots/screen_2.png" width=30% height=30%/>
-<img src="https://github.com/HarshAndroid/MusicPlayer/blob/master/music_player_screenshots/screen_3.png" width=30% height=30%/>
+<img src="https://github.com/HarshAndroid/MusicPlayer/blob/master/music_player_screenshots/01.jpg" width=30% height=30%/>
+<img src="https://github.com/HarshAndroid/MusicPlayer/blob/master/music_player_screenshots/02.jpg" width=30% height=30%/>
+<img src="https://github.com/HarshAndroid/MusicPlayer/blob/master/music_player_screenshots/03.jpg" width=30% height=30%/>
 <br>
 <br>
   
