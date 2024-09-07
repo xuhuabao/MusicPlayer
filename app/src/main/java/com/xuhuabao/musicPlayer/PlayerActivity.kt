@@ -295,27 +295,27 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         val dialog = BottomSheetDialog(this@PlayerActivity)
         dialog.setContentView(R.layout.bottom_sheet_dialog)
         dialog.show()
-        dialog.findViewById<LinearLayout>(R.id.min_15)?.setOnClickListener {
-            Toast.makeText(baseContext,  "Music will stop after 15 minutes", Toast.LENGTH_SHORT).show()
-            binding.timerBtnPA.setColorFilter(ContextCompat.getColor(this, R.color.purple_500))
-            min15 = true
-            Thread{Thread.sleep((15 * 60000).toLong())
-            if(min15) exitApplication()}.start()
-            dialog.dismiss()
-        }
         dialog.findViewById<LinearLayout>(R.id.min_30)?.setOnClickListener {
             Toast.makeText(baseContext,  "Music will stop after 30 minutes", Toast.LENGTH_SHORT).show()
             binding.timerBtnPA.setColorFilter(ContextCompat.getColor(this, R.color.purple_500))
-            min30 = true
+            min15 = true
             Thread{Thread.sleep((30 * 60000).toLong())
-                if(min30) exitApplication()}.start()
+            if(min15) exitApplication()}.start()
             dialog.dismiss()
         }
         dialog.findViewById<LinearLayout>(R.id.min_60)?.setOnClickListener {
             Toast.makeText(baseContext,  "Music will stop after 60 minutes", Toast.LENGTH_SHORT).show()
             binding.timerBtnPA.setColorFilter(ContextCompat.getColor(this, R.color.purple_500))
-            min60 = true
+            min30 = true
             Thread{Thread.sleep((60 * 60000).toLong())
+                if(min30) exitApplication()}.start()
+            dialog.dismiss()
+        }
+        dialog.findViewById<LinearLayout>(R.id.min_120)?.setOnClickListener {
+            Toast.makeText(baseContext,  "Music will stop after 120 minutes", Toast.LENGTH_SHORT).show()
+            binding.timerBtnPA.setColorFilter(ContextCompat.getColor(this, R.color.purple_500))
+            min60 = true
+            Thread{Thread.sleep((120 * 60000).toLong())
                 if(min60) exitApplication()}.start()
             dialog.dismiss()
         }
