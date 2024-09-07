@@ -27,10 +27,6 @@
         tools:ignore="AllowBackup">
 
         <activity
-            android:name=".PlayNext"
-            android:exported="false" />
-
-        <activity
             android:name=".AboutActivity"
             android:screenOrientation="sensorPortrait"
             android:configChanges="uiMode|orientation"
