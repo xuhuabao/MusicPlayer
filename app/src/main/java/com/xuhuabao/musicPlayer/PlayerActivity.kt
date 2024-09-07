@@ -40,9 +40,9 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         @SuppressLint("StaticFieldLeak")
         lateinit var binding: ActivityPlayerBinding
         var repeat: Boolean = false
-        var min15: Boolean = false
         var min30: Boolean = false
         var min60: Boolean = false
+        var min120: Boolean = false
         var nowPlayingId: String = ""
         var fIndex: Int = -1
         lateinit var loudnessEnhancer: LoudnessEnhancer
@@ -58,6 +58,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         binding.backBtnPA.setOnClickListener { finish() }
 
         if(intent.data?.scheme.contentEquals("content")){
+//            Toast.makeText(this, "000000", Toast.LENGTH_SHORT).show(); 不走这里
 
             songPosition = 0
             val intentService = Intent(this, MusicService::class.java)
@@ -107,16 +108,16 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         }catch (e: Exception){Toast.makeText(this,  "Equalizer Feature not Supported!!", Toast.LENGTH_SHORT).show()}
         }
         binding.timerBtnPA.setOnClickListener {
-            val timer = min15 || min30 || min60
+            val timer = min30 || min60 || min120
             if(!timer) showBottomSheetDialog()
             else {
                 val builder = MaterialAlertDialogBuilder(this)
                 builder.setTitle("Stop Timer")
                     .setMessage("Do you want to stop timer?")
                     .setPositiveButton("Yes"){ _, _ ->
-                        min15 = false
                         min30 = false
                         min60 = false
+                        min120 = false
                         binding.timerBtnPA.setColorFilter(ContextCompat.getColor(this, R.color.cool_pink))
                     }
                     .setNegativeButton("No"){dialog, _ ->
@@ -158,8 +159,9 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             setDialogBtnBackground(this, dialogB)
         }
     }
-//Important Function
+//Important Function // 走这里
     private fun initializeLayout(){
+//        Toast.makeText(this, "111111", Toast.LENGTH_SHORT).show();
         songPosition = intent.getIntExtra("index", 0)
         when(intent.getStringExtra("class")){
             "NowPlaying"->{
@@ -184,13 +186,17 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     }
 
     private fun setLayout(){
+
+
         Glide.with(applicationContext)
             .load(musicListPA[songPosition].artUri)
             .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
             .into(binding.songImgPA)
+
         binding.songNamePA.text = musicListPA[songPosition].title
         if(repeat) binding.repeatBtnPA.setColorFilter(ContextCompat.getColor(applicationContext, R.color.purple_500))
-        if(min15 || min30 || min60) binding.timerBtnPA.setColorFilter(ContextCompat.getColor(applicationContext, R.color.purple_500))
+        if(min30 || min60 || min120) binding.timerBtnPA.setColorFilter(ContextCompat.getColor(applicationContext, R.color.purple_500))
+
 
         val img = getImgArt(musicListPA[songPosition].path)
         val image = if (img != null) {
@@ -301,25 +307,25 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         dialog.findViewById<LinearLayout>(R.id.min_30)?.setOnClickListener {
             Toast.makeText(baseContext,  "Music will stop after 30 minutes", Toast.LENGTH_SHORT).show()
             binding.timerBtnPA.setColorFilter(ContextCompat.getColor(this, R.color.purple_500))
-            min15 = true
+            min30 = true
             Thread{Thread.sleep((30 * 60000).toLong())
-            if(min15) exitApplication()}.start()
+            if(min30) exitApplication()}.start()
             dialog.dismiss()
         }
         dialog.findViewById<LinearLayout>(R.id.min_60)?.setOnClickListener {
             Toast.makeText(baseContext,  "Music will stop after 60 minutes", Toast.LENGTH_SHORT).show()
             binding.timerBtnPA.setColorFilter(ContextCompat.getColor(this, R.color.purple_500))
-            min30 = true
+            min60 = true
             Thread{Thread.sleep((60 * 60000).toLong())
-                if(min30) exitApplication()}.start()
+                if(min60) exitApplication()}.start()
             dialog.dismiss()
         }
         dialog.findViewById<LinearLayout>(R.id.min_120)?.setOnClickListener {
             Toast.makeText(baseContext,  "Music will stop after 120 minutes", Toast.LENGTH_SHORT).show()
             binding.timerBtnPA.setColorFilter(ContextCompat.getColor(this, R.color.purple_500))
-            min60 = true
+            min120 = true
             Thread{Thread.sleep((120 * 60000).toLong())
-                if(min60) exitApplication()}.start()
+                if(min120) exitApplication()}.start()
             dialog.dismiss()
         }
     }
