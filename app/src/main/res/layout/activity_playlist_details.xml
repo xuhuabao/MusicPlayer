@@ -16,7 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="?attr/themeColor"
-        android:layout_marginTop="2dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp">
 
         <ImageButton
             android:id="@+id/backBtnPD"
@@ -34,28 +35,33 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/playlist_btn"
             android:gravity="center"
+            android:singleLine="true"
             android:text="@string/playlist_btn"
             android:textColor="@color/white"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:singleLine="true"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayoutDetails"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearLayout"
         android:background="?attr/themeColor"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/playlistImgPD"
             android:layout_width="250dp"
             android:layout_height="match_parent"
-            android:src="@drawable/music_player_icon_slash_screen"/>
+            android:paddingEnd="25dp"
+            android:src="@drawable/music_player_icon_slash_screen"
+            tools:ignore="RtlSymmetry" />
         <TextView
             android:id="@+id/moreInfoPD"
             android:layout_width="match_parent"
@@ -78,25 +84,6 @@
         android:scrollbars="vertical"
         android:paddingBottom="280dp"
         android:layout_marginTop="10dp"/>
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/shuffleBtnPD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        app:icon="@drawable/shuffle_icon"
-        app:iconSize="35dp"
-        app:iconTint="?attr/themeColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9"
-        app:strokeWidth="2dp"
-        app:strokeColor="?attr/themeColor"
-        android:visibility="invisible"/>
-
 
         <!--for buttons-->
     <LinearLayout
