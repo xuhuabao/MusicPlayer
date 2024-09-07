@@ -189,8 +189,6 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         binding.songNamePA.text = musicListPA[songPosition].title
         if(repeat) binding.repeatBtnPA.setColorFilter(ContextCompat.getColor(applicationContext, R.color.purple_500))
         if(min15 || min30 || min60) binding.timerBtnPA.setColorFilter(ContextCompat.getColor(applicationContext, R.color.purple_500))
-        if(isFavourite) binding.favouriteBtnPA.setImageResource(R.drawable.favourite_icon)
-        else binding.favouriteBtnPA.setImageResource(R.drawable.favourite_empty_icon)
 
         val img = getImgArt(musicListPA[songPosition].path)
         val image = if (img != null) {
