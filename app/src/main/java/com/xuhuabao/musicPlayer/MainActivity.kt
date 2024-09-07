@@ -3,7 +3,6 @@ package com.xuhuabao.musicPlayer
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -102,6 +101,8 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+    // 结束 fun onCreate
+
     //For requesting permission
     private fun requestRuntimePermission() :Boolean{
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
