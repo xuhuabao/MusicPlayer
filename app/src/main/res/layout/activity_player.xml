@@ -11,7 +11,8 @@
     <!--    First Row-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
+        android:background="@color/cool_pink"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_weight="1">
@@ -20,18 +21,18 @@
         <ImageButton
             android:id="@+id/backBtnPA"
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:src="@drawable/back_icon"
             android:background="?attr/selectableItemBackground"
             android:layout_marginStart="5dp"
             android:contentDescription="@string/back_btn"
-            app:tint="?colorOnPrimary"
+            app:tint="@color/white"
             android:padding="10dp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textColor="?colorOnPrimary"
+            android:textColor="@color/white"
             android:text="@string/world_of_music"
             android:textSize="20sp"
             android:gravity="center"

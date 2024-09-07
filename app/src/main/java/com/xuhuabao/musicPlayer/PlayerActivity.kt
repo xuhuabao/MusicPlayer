@@ -44,7 +44,6 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         var min30: Boolean = false
         var min60: Boolean = false
         var nowPlayingId: String = ""
-        var isFavourite: Boolean = false
         var fIndex: Int = -1
         lateinit var loudnessEnhancer: LoudnessEnhancer
     }
@@ -55,6 +54,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         setTheme(MainActivity.currentTheme[MainActivity.themeIndex])
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         if(intent.data?.scheme.contentEquals("content")){
             songPosition = 0
             val intentService = Intent(this, MusicService::class.java)
