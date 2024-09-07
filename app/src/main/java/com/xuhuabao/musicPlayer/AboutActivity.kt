@@ -17,7 +17,8 @@ class AboutActivity : AppCompatActivity() {
         binding.aboutText.text = aboutText()
     }
     private fun aboutText(): String{
-        return "Developed By: Xu Huabao" +
-                "\n\nIf you want to provide feedback, I will love to hear that."
+        return "Developed By:  Xu Huabao" +
+                "\n\nIf you want to provide feedback, I will love to hear that."+
+                "\n\nVersion Name: ${BuildConfig.VERSION_NAME}"
     }
 }
