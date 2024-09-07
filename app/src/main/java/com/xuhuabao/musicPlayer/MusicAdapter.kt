@@ -1,25 +1,15 @@
-package com.harshRajpurohit.musicPlayer
+package com.xuhuabao.musicPlayer
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.text.SpannableStringBuilder
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.text.bold
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import com.harshRajpurohit.musicPlayer.MusicAdapter.MyHolder
-import com.harshRajpurohit.musicPlayer.databinding.DetailsViewBinding
-import com.harshRajpurohit.musicPlayer.databinding.MoreFeaturesBinding
-import com.harshRajpurohit.musicPlayer.databinding.MusicViewBinding
+import com.xuhuabao.musicPlayer.MusicAdapter.MyHolder
+import com.xuhuabao.musicPlayer.databinding.MusicViewBinding
 
 class MusicAdapter(private val context: Context, private var musicList: ArrayList<Music>, private val playlistDetails: Boolean = false,
 private val selectionActivity: Boolean = false)

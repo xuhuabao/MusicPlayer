@@ -1,4 +1,4 @@
-package com.harshRajpurohit.musicPlayer
+package com.xuhuabao.musicPlayer
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,7 +13,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -21,8 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import com.harshRajpurohit.musicPlayer.databinding.ActivityMainBinding
+import com.xuhuabao.musicPlayer.databinding.ActivityMainBinding
 import java.io.File
 
 class MainActivity : AppCompatActivity() {

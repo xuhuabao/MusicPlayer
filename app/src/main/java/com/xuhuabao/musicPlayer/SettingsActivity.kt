@@ -1,8 +1,8 @@
-package com.harshRajpurohit.musicPlayer
+package com.xuhuabao.musicPlayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.harshRajpurohit.musicPlayer.databinding.ActivitySettingsBinding
+import com.xuhuabao.musicPlayer.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
 

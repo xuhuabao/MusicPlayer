@@ -1,4 +1,4 @@
-package com.harshRajpurohit.musicPlayer
+package com.xuhuabao.musicPlayer
 
 import android.content.Context
 import android.graphics.Bitmap

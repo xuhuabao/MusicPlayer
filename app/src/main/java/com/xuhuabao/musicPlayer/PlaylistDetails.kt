@@ -1,9 +1,8 @@
-package com.harshRajpurohit.musicPlayer
+package com.xuhuabao.musicPlayer
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
-import com.harshRajpurohit.musicPlayer.databinding.ActivityPlaylistDetailsBinding
+import com.xuhuabao.musicPlayer.databinding.ActivityPlaylistDetailsBinding
 import java.util.Collections
 
 class PlaylistDetails : AppCompatActivity() {

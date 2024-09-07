@@ -1,4 +1,4 @@
-package com.harshRajpurohit.musicPlayer
+package com.xuhuabao.musicPlayer
 
 import android.content.BroadcastReceiver
 import android.content.Context

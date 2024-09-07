@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.harshRajpurohit.musicPlayer"
+    namespace = "com.xuhuabao.musicPlayer"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.harshRajpurohit.musicPlayer"
-        minSdk = 21
+        applicationId = "com.xuhuabao.musicPlayer"
+        minSdk = 27
         targetSdk = 34
         versionCode = 11
-        versionName = "2.0.1"
+        versionName = "2.0"
 
         // For showing build version name
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
@@ -20,19 +20,20 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     buildFeatures{
@@ -42,6 +43,7 @@ android {
         // For showing build version name
         buildConfig = true
     }
+
 }
 
 dependencies {
