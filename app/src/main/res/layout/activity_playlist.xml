@@ -10,30 +10,30 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:background="?attr/themeColor"
+        android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/backBtnPLA"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:src="@drawable/back_icon"
-            android:contentDescription="@string/back_btn"
             android:backgroundTint="@android:color/transparent"
-            app:tint="@color/white"
-            android:padding="5dp"/>
+            android:contentDescription="@string/back_btn"
+            android:padding="5dp"
+            android:src="@drawable/back_icon"
+            app:tint="@color/white" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/playlist_btn"
             android:gravity="center"
+            android:layout_marginEnd="48dp"
             android:text="@string/playlist_btn"
             android:textColor="@color/white"
             android:textSize="25sp"
