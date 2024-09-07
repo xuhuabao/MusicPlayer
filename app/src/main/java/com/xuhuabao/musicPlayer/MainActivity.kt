@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity() {
             R.style.coolBlackNav)
         val currentGradient = arrayOf(R.drawable.gradient_pink, R.drawable.gradient_blue)
         var sortOrder: Int = 0
-        val sortingList = arrayOf(MediaStore.Audio.Media.DATE_ADDED + " DESC", MediaStore.Audio.Media.TITLE,
-        MediaStore.Audio.Media.SIZE + " DESC")
+        val sortingList = arrayOf(MediaStore.Audio.Media.TITLE)
     }
 
 
