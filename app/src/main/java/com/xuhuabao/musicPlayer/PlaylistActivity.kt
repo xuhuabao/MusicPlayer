@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.xuhuabao.musicPlayer.databinding.ActivityPlaylistBinding
 import com.xuhuabao.musicPlayer.databinding.AddPlaylistDialogBinding
@@ -28,7 +29,7 @@ class PlaylistActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.playlistRV.setHasFixedSize(true)
         binding.playlistRV.setItemViewCacheSize(13)
-        binding.playlistRV.layoutManager = GridLayoutManager(this@PlaylistActivity, 2)
+        binding.playlistRV.layoutManager = LinearLayoutManager(this@PlaylistActivity)
         adapter = PlaylistViewAdapter(this, playlistList = musicPlaylist.ref)
         binding.playlistRV.adapter = adapter
         binding.backBtnPLA.setOnClickListener { finish() }
