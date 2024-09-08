@@ -29,6 +29,7 @@
     <string name="playlist_delete">Delete</string>
     <string name="user_name">Your Name</string>
     <string name="add_song">Add</string>
+    <string name="confirm">Confirm</string>
     <string name="remove_all">Remove All</string>
     <string name="search_song">Search Song</string>
     <string name="send">Send</string>

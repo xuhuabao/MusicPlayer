@@ -26,6 +26,8 @@ class SelectionActivity : AppCompatActivity() {
         binding.selectionRV.adapter = adapter
 
         binding.backBtnSA.setOnClickListener { finish() }
+        binding.confirmBtn.setOnClickListener{ finish() }
+
         //for search View
         binding.searchViewSA.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean = true
