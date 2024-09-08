@@ -2,13 +2,8 @@ package com.xuhuabao.musicPlayer
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +18,7 @@ class PlaylistDetails : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlaylistDetailsBinding
     private lateinit var adapter: MusicAdapter
+    private lateinit var mplaylist: ArrayList<Music>
 
     companion object{
         var currentPlaylistPos: Int = -1
@@ -42,12 +38,14 @@ class PlaylistDetails : AppCompatActivity() {
         }
         catch(e: Exception){}
 
+        mplaylist = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist
+
         binding.playlistDetailsRV.setItemViewCacheSize(10)
         binding.playlistDetailsRV.setHasFixedSize(true)
         binding.playlistDetailsRV.layoutManager = LinearLayoutManager(this)
 
         //构造adapter： 哪个列表内容？musicPlaylist.ref[currentPlaylistPos]， 哪个Activity? playlistDetails
-        adapter = MusicAdapter(this, PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist, playlistDetails = true)
+        adapter = MusicAdapter(this, mplaylist, playlistDetails = true)
         binding.playlistDetailsRV.adapter = adapter
         binding.backBtnPD.setOnClickListener { finish() }
 
@@ -67,11 +65,11 @@ class PlaylistDetails : AppCompatActivity() {
                 // 允许拖动到任意位置
                 if (fromPosition < toPosition) {
                     for (i in fromPosition until toPosition) {
-                        Collections.swap(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist, i, i + 1)
+                        Collections.swap(mplaylist, i, i + 1)
                     }
                 } else {
                     for (i in fromPosition downTo toPosition + 1) {
-                        Collections.swap(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist, i, i - 1)
+                        Collections.swap(mplaylist, i, i - 1)
                     }
                 }
 
@@ -90,7 +88,7 @@ class PlaylistDetails : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
-//                playlist.removeAt(position)
+                mplaylist.removeAt(position)
                 adapter.notifyItemRemoved(position)
             }
 
@@ -98,8 +96,6 @@ class PlaylistDetails : AppCompatActivity() {
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.playlistDetailsRV)
-
-
 
 
         // ****************************** 拖动排序歌单 end *******************************
@@ -112,7 +108,7 @@ class PlaylistDetails : AppCompatActivity() {
             builder.setTitle("Remove")
                 .setMessage("Do you want to remove all songs from playlist?")
                 .setPositiveButton("Yes"){ dialog, _ ->
-                    PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist.clear()
+                    mplaylist.clear()
                     adapter.refreshPlaylist()
                     dialog.dismiss()
                 }
@@ -141,8 +137,9 @@ class PlaylistDetails : AppCompatActivity() {
                 .into(binding.playlistImgPD)
         }
         adapter.notifyDataSetChanged()
-        //for storing favourites data using shared preferences
-        val editor = getSharedPreferences("FAVOURITES", MODE_PRIVATE).edit()
+
+        //for storing data using shared preferences 保存列表数据
+        val editor = getSharedPreferences("musicPlayer", MODE_PRIVATE).edit()
         val jsonStringPlaylist = GsonBuilder().create().toJson(PlaylistActivity.musicPlaylist)
         editor.putString("MusicPlaylist", jsonStringPlaylist)
         editor.apply()

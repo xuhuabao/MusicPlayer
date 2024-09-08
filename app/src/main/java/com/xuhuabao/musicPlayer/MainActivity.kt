@@ -32,8 +32,9 @@ class MainActivity : AppCompatActivity() {
         lateinit var musicListSearch : ArrayList<Music>
         var search: Boolean = false
         var themeIndex: Int = 0
+
         // NowPlaying.kt 引用了 currentTheme
-        val currentTheme = arrayOf(R.style.coolPink, R.style.coolBlue, R.style.coolPurple, R.style.coolGreen, R.style.coolBlack)
+        val currentTheme = arrayOf(R.style.coolPink, R.style.coolBlue)
         val currentThemeNav = arrayOf(R.style.coolPinkNav, R.style.coolBlueNav, R.style.coolPurpleNav, R.style.coolGreenNav,
             R.style.coolBlackNav)
         val currentGradient = arrayOf(R.drawable.gradient_pink, R.drawable.gradient_blue)
@@ -41,12 +42,12 @@ class MainActivity : AppCompatActivity() {
         val sortingList = arrayOf(MediaStore.Audio.Media.TITLE)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(currentThemeNav[themeIndex])
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         //for nav drawer
         toggle = ActionBarDrawerToggle(this, binding.root,R.string.open, R.string.close)
         binding.root.addDrawerListener(toggle)
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             initializeLayout()
             //for retrieving favourites data using shared preferences
 
-            val editor = getSharedPreferences("FAVOURITES", MODE_PRIVATE)
+            val editor = getSharedPreferences("musicPlayer", MODE_PRIVATE)
             PlaylistActivity.musicPlaylist = MusicPlaylist()
             val jsonStringPlaylist = editor.getString("MusicPlaylist", null)
             if(jsonStringPlaylist != null){
@@ -145,10 +146,13 @@ class MainActivity : AppCompatActivity() {
         search = false
         val sortEditor = getSharedPreferences("SORTING", MODE_PRIVATE)
         sortOrder = sortEditor.getInt("sortOrder", 0)
+
         MusicListMA = getAllAudio()
         binding.musicRV.setHasFixedSize(true)
         binding.musicRV.setItemViewCacheSize(13)
+
         binding.musicRV.layoutManager = LinearLayoutManager(this@MainActivity)
+
         musicAdapter = MusicAdapter(this@MainActivity, MusicListMA)
         binding.musicRV.adapter = musicAdapter
         binding.totalSongs.text  = "Total Songs : "+musicAdapter.itemCount
@@ -157,7 +161,6 @@ class MainActivity : AppCompatActivity() {
         binding.refreshLayout.setOnRefreshListener {
             MusicListMA = getAllAudio()
             musicAdapter.updateMusicList(MusicListMA)
-
             binding.refreshLayout.isRefreshing = false
         }
     }
@@ -228,8 +231,8 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         //for storing favourites data using shared preferences
-        val editor = getSharedPreferences("FAVOURITES", MODE_PRIVATE).edit()
-        editor.apply()
+//        val editor = getSharedPreferences("musicPlayer", MODE_PRIVATE).edit()
+//        editor.apply()
 
         //for sorting
         val sortEditor = getSharedPreferences("SORTING", MODE_PRIVATE)
