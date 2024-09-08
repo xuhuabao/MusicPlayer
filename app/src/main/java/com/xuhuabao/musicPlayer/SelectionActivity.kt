@@ -3,7 +3,6 @@ package com.xuhuabao.musicPlayer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.xuhuabao.musicPlayer.databinding.ActivitySelectionBinding
 
@@ -25,6 +24,7 @@ class SelectionActivity : AppCompatActivity() {
         //构造adapter： 哪个列表内容？MainActivity.MusicListMA， 哪个Activity? selectionActivity
         adapter = MusicAdapter(this, MainActivity.MusicListMA, selectionActivity = true)
         binding.selectionRV.adapter = adapter
+
         binding.backBtnSA.setOnClickListener { finish() }
         //for search View
         binding.searchViewSA.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -44,12 +44,4 @@ class SelectionActivity : AppCompatActivity() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        //for black theme checking
-        if(MainActivity.themeIndex == 4)
-        {
-            binding.searchViewSA.backgroundTintList = ContextCompat.getColorStateList(this, R.color.white)
-        }
-    }
 }

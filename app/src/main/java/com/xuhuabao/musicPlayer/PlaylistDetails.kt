@@ -147,7 +147,7 @@ class PlaylistDetails : AppCompatActivity() {
             binding.playlistImgPD.setImageBitmap(bitmap)
         }
         adapter.notifyDataSetChanged()
-        save_favorite_lists()
+        save_favorite_lists()  // 添加重新打开该页面
     }
 
     override fun onStop() {
@@ -157,6 +157,7 @@ class PlaylistDetails : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        save_favorite_lists()
         Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show()
     }
 
