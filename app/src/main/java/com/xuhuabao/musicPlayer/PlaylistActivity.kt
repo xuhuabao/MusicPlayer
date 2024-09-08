@@ -17,6 +17,8 @@ class PlaylistActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlaylistBinding
     private lateinit var adapter: PlaylistViewAdapter
+//    private var isChange:Boolean = false
+    private var numList: Int = 0
 
     companion object{
         var musicPlaylist: MusicPlaylist = MusicPlaylist()
@@ -28,7 +30,7 @@ class PlaylistActivity : AppCompatActivity() {
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //for retrieving favourites data using shared preferences
+        // 进入当前页面加载数据
         val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE)
         musicPlaylist = MusicPlaylist()
         val jsonStringPlaylist = editor.getString("MusicPlaylist", null)
@@ -43,6 +45,7 @@ class PlaylistActivity : AppCompatActivity() {
 
         adapter = PlaylistViewAdapter(this, playlistList = musicPlaylist.ref)
         binding.playlistRV.adapter = adapter
+        numList = adapter.itemCount
 
         binding.backBtnPLA.setOnClickListener { finish() }
         binding.addPlaylistBtn.setOnClickListener { customAlertDialog() }
@@ -88,11 +91,28 @@ class PlaylistActivity : AppCompatActivity() {
 
             musicPlaylist.ref.add(tempPlaylist)  // *************
             adapter.refreshPlaylist()  // *************
+//            isChange = true
         }
     }
 
     override fun onResume() {
         super.onResume()
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (numList != adapter.itemCount){
+            save_favorite_lists() // 离开当前页面保存数据
+        }
+    }
+
+    fun save_favorite_lists(){
+        Toast.makeText(this, "storing favorite_lists", Toast.LENGTH_SHORT).show()
+        //for storing data using shared preferences 保存列表数据
+        val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE).edit()
+        val jsonStringPlaylist = GsonBuilder().create().toJson(PlaylistActivity.musicPlaylist)
+        editor.putString("MusicPlaylist", jsonStringPlaylist)
+        editor.apply()
     }
 }

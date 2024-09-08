@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
 import com.xuhuabao.musicPlayer.databinding.ActivityPlaylistDetailsBinding
@@ -21,6 +19,7 @@ class PlaylistDetails : AppCompatActivity() {
     private lateinit var binding: ActivityPlaylistDetailsBinding
     private lateinit var adapter: MusicAdapter
     private lateinit var mplaylist: ArrayList<Music>
+    private var isChange:Boolean = false
 
     companion object{
         var currentPlaylistPos: Int = -1
@@ -82,6 +81,7 @@ class PlaylistDetails : AppCompatActivity() {
 
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 super.clearView(recyclerView, viewHolder)
+                isChange = true
                 adapter.notifyDataSetChanged()
             }
 
@@ -101,6 +101,7 @@ class PlaylistDetails : AppCompatActivity() {
 
         binding.addBtnPD.setOnClickListener {
             startActivity(Intent(this, SelectionActivity::class.java))
+            isChange = true
         }
         binding.removeAllPD.setOnClickListener {
             val builder = MaterialAlertDialogBuilder(this)
@@ -109,6 +110,7 @@ class PlaylistDetails : AppCompatActivity() {
                 .setPositiveButton("Yes"){ dialog, _ ->
                     mplaylist.clear()
                     adapter.refreshPlaylist()
+                    isChange = true
                     dialog.dismiss()
                 }
                 .setNegativeButton("No"){dialog, _ ->
@@ -122,19 +124,16 @@ class PlaylistDetails : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
-        Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show()
+
     }
 
     override fun onStart() {
         super.onStart()
-        Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
-        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show()
-
         binding.playlistNamePD.text = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].name
         binding.moreInfoPD.text = "Total ${adapter.itemCount} Songs.\n\n" +
                 "Created On:\n${PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].createdOn}"
@@ -142,24 +141,23 @@ class PlaylistDetails : AppCompatActivity() {
         if(adapter.itemCount > 0)
         {
             // 新方法
-            val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path) // 获取 ByteArray
-            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) } // 将 ByteArray 转换为 Bitmap
-            // 设置 Bitmap 到 ShapeableImageView
+            val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path)
+            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
             binding.playlistImgPD.setImageBitmap(bitmap)
         }
         adapter.notifyDataSetChanged()
-        save_favorite_lists()// 添加重新打开该页面
     }
 
     override fun onStop() {
         super.onStop()
-        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show()
-        save_favorite_lists()
+        if (isChange) {
+            save_favorite_lists() // 离开当前页面保存数据
+        }
     }
 
     fun save_favorite_lists(){

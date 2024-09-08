@@ -4,8 +4,11 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.media.MediaMetadataRetriever
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import com.google.android.material.color.MaterialColors
+import com.google.gson.GsonBuilder
 import java.io.File
 import java.util.concurrent.TimeUnit
 import kotlin.system.exitProcess
@@ -106,3 +109,4 @@ fun getMainColor(img: Bitmap): Int {
     newImg.recycle()
     return color
 }
+

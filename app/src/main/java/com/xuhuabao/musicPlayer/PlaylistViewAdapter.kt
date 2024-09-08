@@ -1,14 +1,19 @@
 package com.xuhuabao.musicPlayer
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.GsonBuilder
 import com.xuhuabao.musicPlayer.databinding.PlaylistViewBinding
 
 
@@ -21,31 +26,25 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
-        return MyHolder(PlaylistViewBinding.inflate(LayoutInflater.from(context), parent, false))
+        val binding = PlaylistViewBinding.inflate(LayoutInflater.from(context), parent, false)
+        val holder = MyHolder(binding)
+        // 注册长按事件
+        holder.root.setOnLongClickListener {
+            val position = holder.adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                showDeleteDialog(position)
+                true
+            } else {
+                false
+            }
+        }
+
+        return holder
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         holder.name.text = playlistList[position].name
         holder.name.isSelected = true
-
-    // 左滑删除
-//        holder.delete.setOnClickListener{
-//            val builder = MaterialAlertDialogBuilder(context)
-//            builder.setTitle(playlistList[position].name)
-//                .setMessage("Do you want to delete playlist?")
-//                .setPositiveButton("Yes"){ dialog, _ ->
-//                    PlaylistActivity.musicPlaylist.ref.removeAt(position)
-//                    refreshPlaylist()
-//                    dialog.dismiss()
-//                }
-//                .setNegativeButton("No"){dialog, _ ->
-//                    dialog.dismiss()
-//                }
-//            val customDialog = builder.create()
-//            customDialog.show()
-//
-//            setDialogBtnBackground(context, customDialog)
-//        }
 
         holder.root.setOnClickListener {
             val intent = Intent(context, PlaylistDetails::class.java)
@@ -54,16 +53,9 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
         }
 
         if(PlaylistActivity.musicPlaylist.ref[position].playlist.size > 0){
-                // 原始
-//            Glide.with(context)
-//                .load(PlaylistActivity.musicPlaylist.ref[position].playlist[0].artUri)
-//                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
-//                .into(holder.image)
 
-            // 新方法
-            val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[position].playlist[0].path) // 获取 ByteArray
-            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) } // 将 ByteArray 转换为 Bitmap
-            // 设置 Bitmap 到 ShapeableImageView
+            val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[position].playlist[0].path)
+            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
             holder.image.setImageBitmap(bitmap)
         }
     }
@@ -72,6 +64,28 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
         return playlistList.size
     }
 
+
+    private fun showDeleteDialog(position: Int) {
+        val item = playlistList[position]
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Delete Item")
+            .setMessage("Are you sure you want to delete ${item.name}?")
+            .setPositiveButton("Delete") { dialog, _ ->
+                PlaylistActivity.musicPlaylist.ref.removeAt(position)
+                refreshPlaylist()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun removeItem(position: Int) {
+        playlistList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     fun refreshPlaylist(){
         playlistList = ArrayList()
