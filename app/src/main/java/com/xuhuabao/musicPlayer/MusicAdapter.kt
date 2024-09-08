@@ -12,8 +12,7 @@ import com.xuhuabao.musicPlayer.MusicAdapter.MyHolder
 import com.xuhuabao.musicPlayer.databinding.MusicViewBinding
 
 class MusicAdapter(private val context: Context, private var musicList: ArrayList<Music>, private val playlistDetails: Boolean = false,
-private val selectionActivity: Boolean = false)
-    : RecyclerView.Adapter<MyHolder>() {
+private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>() {
 
     class MyHolder(binding: MusicViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.songNameMV

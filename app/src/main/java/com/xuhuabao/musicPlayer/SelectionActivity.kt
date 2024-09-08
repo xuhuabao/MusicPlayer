@@ -17,9 +17,12 @@ class SelectionActivity : AppCompatActivity() {
         binding = ActivitySelectionBinding.inflate(layoutInflater)
         setTheme(MainActivity.currentTheme[MainActivity.themeIndex])
         setContentView(binding.root)
+
         binding.selectionRV.setItemViewCacheSize(30)
         binding.selectionRV.setHasFixedSize(true)
         binding.selectionRV.layoutManager = LinearLayoutManager(this)
+
+        //构造adapter： 哪个列表内容？MainActivity.MusicListMA， 哪个Activity? selectionActivity
         adapter = MusicAdapter(this, MainActivity.MusicListMA, selectionActivity = true)
         binding.selectionRV.adapter = adapter
         binding.backBtnSA.setOnClickListener { finish() }
