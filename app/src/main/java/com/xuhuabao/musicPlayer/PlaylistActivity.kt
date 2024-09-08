@@ -98,7 +98,9 @@ class PlaylistActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        adapter.notifyDataSetChanged()
+        if (adapter.isChage || numList != adapter.itemCount) {  // *********
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onDestroy() {
