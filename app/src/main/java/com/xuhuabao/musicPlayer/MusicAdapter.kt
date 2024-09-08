@@ -72,12 +72,14 @@ private val selectionActivity: Boolean = false)
         musicList.addAll(searchList)
         notifyDataSetChanged()
     }
+
     private fun sendIntent(ref: String, pos: Int){
         val intent = Intent(context, PlayerActivity::class.java)
         intent.putExtra("index", pos)
         intent.putExtra("class", ref)
         ContextCompat.startActivity(context, intent, null)
     }
+
     private fun addSong(song: Music): Boolean{
         PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.forEachIndexed { index, music ->
             if(song.id == music.id){
@@ -88,6 +90,7 @@ private val selectionActivity: Boolean = false)
         PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.add(song)
         return true
     }
+
     fun refreshPlaylist(){
         musicList = ArrayList()
         musicList = PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist

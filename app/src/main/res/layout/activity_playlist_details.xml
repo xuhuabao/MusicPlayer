@@ -97,20 +97,6 @@
         app:layout_constraintStart_toStartOf="parent">
         <!--Add Button-->
         <Button
-            android:id="@+id/sortBtnPD"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:contentDescription="@string/sort_song"
-            android:drawableLeft="@drawable/sort_icon"
-            android:text="@string/sort_song"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            android:textColor="?colorOnPrimary"
-            tools:ignore="RtlHardcoded" />
-
-        <Button
             android:id="@+id/addBtnPD"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"

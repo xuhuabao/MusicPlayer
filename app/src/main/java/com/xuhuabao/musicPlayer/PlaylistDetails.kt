@@ -2,8 +2,13 @@ package com.xuhuabao.musicPlayer
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,67 +33,74 @@ class PlaylistDetails : AppCompatActivity() {
         setTheme(MainActivity.currentTheme[MainActivity.themeIndex])
         binding = ActivityPlaylistDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         currentPlaylistPos = intent.extras?.get("index") as Int
-        try{PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist =
-            checkPlaylist(playlist = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist)}
+
+        try{
+            PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist =
+            checkPlaylist(playlist = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist)
+        }
         catch(e: Exception){}
+
         binding.playlistDetailsRV.setItemViewCacheSize(10)
         binding.playlistDetailsRV.setHasFixedSize(true)
         binding.playlistDetailsRV.layoutManager = LinearLayoutManager(this)
+
         adapter = MusicAdapter(this, PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist, playlistDetails = true)
         binding.playlistDetailsRV.adapter = adapter
         binding.backBtnPD.setOnClickListener { finish() }
 
         // ****************************** 拖动排序歌单 start *******************************
 
-        binding.sortBtnPD.setOnClickListener {
 
-            val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
-            ) {
-                override fun getMovementFlags(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder
-                ): Int {
-                    val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-                    val swipeFlags = 0 // 禁用滑动删除
-                    return makeMovementFlags(dragFlags, swipeFlags)
-                }
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT
+        ) {
 
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    val fromPosition = viewHolder.adapterPosition
-                    val toPosition = target.adapterPosition
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
 
-                    // 允许拖动到任意位置
-                    if (fromPosition < toPosition) {
-                        for (i in fromPosition until toPosition) {
-                            Collections.swap(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist, i, i + 1)
-                        }
-                    } else {
-                        for (i in fromPosition downTo toPosition + 1) {
-                            Collections.swap(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist, i, i - 1)
-                        }
+                // 允许拖动到任意位置
+                if (fromPosition < toPosition) {
+                    for (i in fromPosition until toPosition) {
+                        Collections.swap(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist, i, i + 1)
                     }
-
-                    // 通知适配器项目已移动
-                    adapter.notifyItemMoved(fromPosition, toPosition)
-                    return true
+                } else {
+                    for (i in fromPosition downTo toPosition + 1) {
+                        Collections.swap(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist, i, i - 1)
+                    }
                 }
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    // 不需要滑动删除，留空即可
-                }
-
+                // 通知适配器项目已移动
+                adapter.notifyItemMoved(fromPosition, toPosition)
+                return true
             }
 
-            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-            itemTouchHelper.attachToRecyclerView(binding.playlistDetailsRV)
+            override fun clearView(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) {
+                super.clearView(recyclerView, viewHolder)
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+//                playlist.removeAt(position)
+                adapter.notifyItemRemoved(position)
+            }
 
         }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.playlistDetailsRV)
+
+
 
 
         // ****************************** 拖动排序歌单 end *******************************
