@@ -32,18 +32,9 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
         holder.album.text = musicList[position].album
         holder.duration.text = formatDuration(musicList[position].duration)
 
-        // 原始
-//        Glide.with(context)
-//            .load(musicList[position].artUri)
-//            .apply(
-//                RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop()
-//            )
-//            .into(holder.image)
-
-        //新方法
-        val artByteArray = getImgArt(musicList[position].path) // 获取 ByteArray
-        val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) } // 将 ByteArray 转换为 Bitmap
-        // 设置 Bitmap 到 ShapeableImageView
+        // 新方法
+        val artByteArray = getImgArt(musicList[position].path)
+        val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
         holder.image.setImageBitmap(bitmap)
 
         when{

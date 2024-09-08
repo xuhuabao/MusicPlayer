@@ -57,15 +57,6 @@ class MainActivity : AppCompatActivity() {
 
         if(requestRuntimePermission()){
             initializeLayout()
-
-            //for retrieving favourites data using shared preferences
-//            val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE)
-//            PlaylistActivity.musicPlaylist = MusicPlaylist()
-//            val jsonStringPlaylist = editor.getString("MusicPlaylist", null)
-//            if(jsonStringPlaylist != null){
-//                val dataPlaylist: MusicPlaylist = GsonBuilder().create().fromJson(jsonStringPlaylist, MusicPlaylist::class.java)
-//                PlaylistActivity.musicPlaylist = dataPlaylist
-//            }
         }
 
 
