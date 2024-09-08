@@ -37,13 +37,14 @@ class PlaylistActivity : AppCompatActivity() {
             val dataPlaylist: MusicPlaylist = GsonBuilder().create().fromJson(jsonStringPlaylist, MusicPlaylist::class.java)
                 musicPlaylist = dataPlaylist
         }
-        //for retrieving favourites data using shared preferences
 
         binding.playlistRV.setHasFixedSize(true)
         binding.playlistRV.setItemViewCacheSize(13)
         binding.playlistRV.layoutManager = LinearLayoutManager(this@PlaylistActivity)
+
         adapter = PlaylistViewAdapter(this, playlistList = musicPlaylist.ref)
         binding.playlistRV.adapter = adapter
+
         binding.backBtnPLA.setOnClickListener { finish() }
         binding.addPlaylistBtn.setOnClickListener { customAlertDialog() }
 

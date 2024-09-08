@@ -30,16 +30,5 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         tools:ignore="MissingConstraints" />
-
-    <ImageButton
-        android:id="@+id/playlistDeleteBtn"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:backgroundTint="@android:color/transparent"
-        android:contentDescription="@string/playlist_delete"
-        android:src="@drawable/delete_icon_list"
-        app:tint="?attr/themeColor"
-        tools:ignore="MissingConstraints"
-        />
+    
 </LinearLayout>
