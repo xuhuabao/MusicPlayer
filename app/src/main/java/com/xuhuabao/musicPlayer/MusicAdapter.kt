@@ -2,6 +2,7 @@ package com.xuhuabao.musicPlayer
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -17,7 +18,7 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
     class MyHolder(binding: MusicViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val title = binding.songNameMV
         val album = binding.songAlbumMV
-        val image = binding.imageMV
+        var image = binding.imageMV
         val duration = binding.songDuration
         val root = binding.root
     }
@@ -30,10 +31,21 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
         holder.title.text = musicList[position].title
         holder.album.text = musicList[position].album
         holder.duration.text = formatDuration(musicList[position].duration)
-        Glide.with(context)
-            .load(musicList[position].artUri)
-            .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
-            .into(holder.image)
+
+        // 原始
+//        Glide.with(context)
+//            .load(musicList[position].artUri)
+//            .apply(
+//                RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop()
+//            )
+//            .into(holder.image)
+
+        //新方法
+        val artByteArray = getImgArt(musicList[position].path) // 获取 ByteArray
+        val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) } // 将 ByteArray 转换为 Bitmap
+        // 设置 Bitmap 到 ShapeableImageView
+        holder.image.setImageBitmap(bitmap)
+
 
         when{
             playlistDetails ->{

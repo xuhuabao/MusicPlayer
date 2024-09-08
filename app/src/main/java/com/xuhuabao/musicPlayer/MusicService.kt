@@ -199,6 +199,7 @@ class MusicService : Service(), AudioManager.OnAudioFocusChangeListener {
         setSongPosition(increment = increment)
 
         PlayerActivity.musicService?.createMediaPlayer()
+
         Glide.with(context)
             .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)
             .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
