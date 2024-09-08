@@ -13,7 +13,6 @@ media = "1.7.0"
 gson = "2.10.1"
 verticalseekbar = "1.2.7"
 
-
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
