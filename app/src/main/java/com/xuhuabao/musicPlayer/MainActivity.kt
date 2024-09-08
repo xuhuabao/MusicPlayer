@@ -68,9 +68,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, PlaylistActivity::class.java))
         }
 
-        Toast.makeText(this, "binding.playlistBtn", Toast.LENGTH_SHORT).show()
-
-
         binding.navView.setNavigationItemSelectedListener{
             when(it.itemId)
             {
@@ -121,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode == 13){
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Permission Granted",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Permission Granted",Toast.LENGTH_SHORT).show()
                 initializeLayout()
             }
 //            else ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 13)

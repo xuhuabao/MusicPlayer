@@ -154,15 +154,15 @@ class PlaylistDetails : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show()
         if (isChange) {
             save_favorite_lists() // 离开当前页面保存数据
         }
     }
 
     fun save_favorite_lists(){
-        Toast.makeText(this, "storing favorite_lists", Toast.LENGTH_SHORT).show()
-        //for storing data using shared preferences 保存列表数据
+//        Toast.makeText(this, "storing favorite_lists", Toast.LENGTH_SHORT).show()
+//        for storing data using shared preferences 保存列表数据
         val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE).edit()
         val jsonStringPlaylist = GsonBuilder().create().toJson(PlaylistActivity.musicPlaylist)
         editor.putString("MusicPlaylist", jsonStringPlaylist)
