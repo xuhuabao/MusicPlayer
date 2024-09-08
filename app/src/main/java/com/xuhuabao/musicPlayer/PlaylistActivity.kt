@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
 import com.xuhuabao.musicPlayer.databinding.ActivityPlaylistBinding
@@ -17,7 +19,7 @@ class PlaylistActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlaylistBinding
     private lateinit var adapter: PlaylistViewAdapter
-//    private var isChange:Boolean = false
+    private var isChange:Boolean = false
     private var numList: Int = 0
 
     companion object{
@@ -91,7 +93,6 @@ class PlaylistActivity : AppCompatActivity() {
 
             musicPlaylist.ref.add(tempPlaylist)  // *************
             adapter.refreshPlaylist()  // *************
-//            isChange = true
         }
     }
 
@@ -102,7 +103,7 @@ class PlaylistActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (numList != adapter.itemCount){
+        if (isChange || adapter.isChage || numList != adapter.itemCount){
             save_favorite_lists() // 离开当前页面保存数据
         }
     }
