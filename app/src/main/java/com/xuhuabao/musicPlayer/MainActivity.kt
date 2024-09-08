@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setNavigationItemSelectedListener{
             when(it.itemId)
             {
-//                R.id.navFeedback -> startActivity(Intent(this@MainActivity, FeedbackActivity::class.java))
                 R.id.navSettings -> startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
                 R.id.navAbout -> startActivity(Intent(this@MainActivity, AboutActivity::class.java))
                 R.id.navExit -> {
@@ -190,8 +189,8 @@ class MainActivity : AppCompatActivity() {
                     val uri = Uri.parse("content://media/external/audio/albumart")
                     val artUriC = Uri.withAppendedPath(uri, albumIdC).toString()
 
-                    // Only add the music file if the duration is greater than 0
-                    if (durationC > 0) {
+                    // Only add the music file if the duration is greater than 50s
+                    if (durationC > 50*1000) {
                         val music = Music(
                             id = idC,
                             title = titleC,

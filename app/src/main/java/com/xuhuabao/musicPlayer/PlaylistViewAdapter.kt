@@ -2,6 +2,7 @@ package com.xuhuabao.musicPlayer
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -52,11 +53,17 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
         }
 
         if(PlaylistActivity.musicPlaylist.ref[position].playlist.size > 0){
+                // 原始
+//            Glide.with(context)
+//                .load(PlaylistActivity.musicPlaylist.ref[position].playlist[0].artUri)
+//                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
+//                .into(holder.image)
 
-            Glide.with(context)
-                .load(PlaylistActivity.musicPlaylist.ref[position].playlist[0].artUri)
-                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
-                .into(holder.image)
+            // 新方法
+            val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[position].playlist[0].path) // 获取 ByteArray
+            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) } // 将 ByteArray 转换为 Bitmap
+            // 设置 Bitmap 到 ShapeableImageView
+            holder.image.setImageBitmap(bitmap)
         }
     }
 
