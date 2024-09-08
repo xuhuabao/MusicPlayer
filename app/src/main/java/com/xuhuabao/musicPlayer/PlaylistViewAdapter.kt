@@ -82,6 +82,7 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
             .setPositiveButton("Delete") { dialog, _ ->
                 PlaylistActivity.musicPlaylist.ref.removeAt(position)
                 refreshPlaylist()
+                isChage=true
                 dialog.dismiss()
             }
         val dialog = builder.create()

@@ -19,7 +19,6 @@ class PlaylistActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlaylistBinding
     private lateinit var adapter: PlaylistViewAdapter
-    private var isChange:Boolean = false
     private var numList: Int = 0
 
     companion object{
@@ -93,17 +92,18 @@ class PlaylistActivity : AppCompatActivity() {
 
             musicPlaylist.ref.add(tempPlaylist)  // *************
             adapter.refreshPlaylist()  // *************
+            adapter.isChage = true
         }
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.notifyDataSetChanged()
+//        adapter.notifyDataSetChanged()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isChange || adapter.isChage || numList != adapter.itemCount){
+        if (adapter.isChage || numList != adapter.itemCount){
             save_favorite_lists() // 离开当前页面保存数据
         }
     }
