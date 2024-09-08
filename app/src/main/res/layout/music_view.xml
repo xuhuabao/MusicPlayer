@@ -14,7 +14,8 @@
         android:src="@mipmap/music_player_icon"
         app:shapeAppearanceOverlay="@style/curved"
         android:layout_marginStart="5dp"
-        android:layout_marginVertical="5dp"/>
+        android:layout_marginVertical="5dp"
+        />
 
     <TextView
         android:id="@+id/songNameMV"
@@ -26,7 +27,7 @@
         android:singleLine="true"
         android:text="@string/song_name"
         android:textColor="?colorOnPrimary"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="77dp"
         android:layout_marginEnd="50dp"/>
 
     <TextView
@@ -39,7 +40,7 @@
         android:layout_marginTop="30dp"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="77dp"
         android:layout_marginEnd="50dp"/>
 
     <TextView
