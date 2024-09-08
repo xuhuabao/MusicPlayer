@@ -32,7 +32,6 @@ class PlaylistActivity : AppCompatActivity() {
         val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE)
         musicPlaylist = MusicPlaylist()
         val jsonStringPlaylist = editor.getString("MusicPlaylist", null)
-        Toast.makeText(this, jsonStringPlaylist.toString(), Toast.LENGTH_SHORT).show()
         if(jsonStringPlaylist != null){
             val dataPlaylist: MusicPlaylist = GsonBuilder().create().fromJson(jsonStringPlaylist, MusicPlaylist::class.java)
                 musicPlaylist = dataPlaylist
@@ -57,11 +56,10 @@ class PlaylistActivity : AppCompatActivity() {
             .setTitle("Playlist Details")
             .setPositiveButton("ADD"){ dialog, _ ->
                 val playlistName = binder.playlistName.text
-                val createdBy = binder.yourName.text
-                if(playlistName != null && createdBy != null)
-                    if(playlistName.isNotEmpty() && createdBy.isNotEmpty())
+                if(playlistName != null)
+                    if(playlistName.isNotEmpty())
                     {
-                        addPlaylist(playlistName.toString(), createdBy.toString())
+                        addPlaylist(playlistName.toString())
                     }
                 dialog.dismiss()
             }.create()
@@ -69,7 +67,7 @@ class PlaylistActivity : AppCompatActivity() {
         setDialogBtnBackground(this, dialog)
 
     }
-    private fun addPlaylist(name: String, createdBy: String){
+    private fun addPlaylist(name: String){
         var playlistExists = false
         for(i in musicPlaylist.ref) {
             if (name == i.name){
@@ -83,7 +81,7 @@ class PlaylistActivity : AppCompatActivity() {
 
             tempPlaylist.name = name
             tempPlaylist.playlist = ArrayList()
-            tempPlaylist.createdBy = createdBy
+
             val calendar = Calendar.getInstance().time
             val sdf = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
             tempPlaylist.createdOn = sdf.format(calendar)

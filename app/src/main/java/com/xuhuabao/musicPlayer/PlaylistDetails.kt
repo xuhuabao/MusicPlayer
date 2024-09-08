@@ -137,8 +137,8 @@ class PlaylistDetails : AppCompatActivity() {
 
         binding.playlistNamePD.text = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].name
         binding.moreInfoPD.text = "Total ${adapter.itemCount} Songs.\n\n" +
-                "Created On:\n${PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].createdOn}\n\n" +
-                "  -- ${PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].createdBy}"
+                "Created On:\n${PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].createdOn}"
+
         if(adapter.itemCount > 0)
         {
             // 新方法
