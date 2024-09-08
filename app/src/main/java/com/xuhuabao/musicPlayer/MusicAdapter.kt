@@ -78,6 +78,7 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
         return musicList.size
     }
 
+
     fun updateMusicList(searchList : ArrayList<Music>){
         musicList = ArrayList()
         musicList.addAll(searchList)

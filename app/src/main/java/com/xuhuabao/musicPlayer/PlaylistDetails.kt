@@ -89,6 +89,7 @@ class PlaylistDetails : AppCompatActivity() {
                 val position = viewHolder.adapterPosition
                 mplaylist.removeAt(position)
                 adapter.notifyItemRemoved(position)
+                Toast.makeText(this@PlaylistDetails, "onSwiped", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -147,7 +148,7 @@ class PlaylistDetails : AppCompatActivity() {
             binding.playlistImgPD.setImageBitmap(bitmap)
         }
         adapter.notifyDataSetChanged()
-        save_favorite_lists()  // 添加重新打开该页面
+        save_favorite_lists()// 添加重新打开该页面
     }
 
     override fun onStop() {
@@ -157,8 +158,8 @@ class PlaylistDetails : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        save_favorite_lists()
         Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show()
+        save_favorite_lists()
     }
 
     fun save_favorite_lists(){
