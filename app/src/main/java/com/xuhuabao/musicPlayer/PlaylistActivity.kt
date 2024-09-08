@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.GsonBuilder
 import com.xuhuabao.musicPlayer.databinding.ActivityPlaylistBinding
 import com.xuhuabao.musicPlayer.databinding.AddPlaylistDialogBinding
 import java.text.SimpleDateFormat
@@ -26,6 +27,18 @@ class PlaylistActivity : AppCompatActivity() {
         setTheme(MainActivity.currentTheme[MainActivity.themeIndex])
         binding = ActivityPlaylistBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //for retrieving favourites data using shared preferences
+        val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE)
+        musicPlaylist = MusicPlaylist()
+        val jsonStringPlaylist = editor.getString("MusicPlaylist", null)
+        Toast.makeText(this, jsonStringPlaylist.toString(), Toast.LENGTH_SHORT).show()
+        if(jsonStringPlaylist != null){
+            val dataPlaylist: MusicPlaylist = GsonBuilder().create().fromJson(jsonStringPlaylist, MusicPlaylist::class.java)
+                musicPlaylist = dataPlaylist
+        }
+        //for retrieving favourites data using shared preferences
+
         binding.playlistRV.setHasFixedSize(true)
         binding.playlistRV.setItemViewCacheSize(13)
         binding.playlistRV.layoutManager = LinearLayoutManager(this@PlaylistActivity)
@@ -66,14 +79,16 @@ class PlaylistActivity : AppCompatActivity() {
         if(playlistExists) Toast.makeText(this, "Playlist Exist!!", Toast.LENGTH_SHORT).show()
         else {
             val tempPlaylist = Playlist()
+
             tempPlaylist.name = name
             tempPlaylist.playlist = ArrayList()
             tempPlaylist.createdBy = createdBy
             val calendar = Calendar.getInstance().time
             val sdf = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
             tempPlaylist.createdOn = sdf.format(calendar)
-            musicPlaylist.ref.add(tempPlaylist)
-            adapter.refreshPlaylist()
+
+            musicPlaylist.ref.add(tempPlaylist)  // *************
+            adapter.refreshPlaylist()  // *************
         }
     }
 

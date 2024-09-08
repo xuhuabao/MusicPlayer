@@ -139,7 +139,7 @@ class PlaylistDetails : AppCompatActivity() {
         adapter.notifyDataSetChanged()
 
         //for storing data using shared preferences 保存列表数据
-        val editor = getSharedPreferences("musicPlayer", MODE_PRIVATE).edit()
+        val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE).edit()
         val jsonStringPlaylist = GsonBuilder().create().toJson(PlaylistActivity.musicPlaylist)
         editor.putString("MusicPlaylist", jsonStringPlaylist)
         editor.apply()

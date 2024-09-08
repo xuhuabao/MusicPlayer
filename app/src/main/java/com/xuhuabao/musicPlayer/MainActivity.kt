@@ -18,7 +18,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.gson.GsonBuilder
 import com.xuhuabao.musicPlayer.databinding.ActivityMainBinding
 import java.io.File
 
@@ -56,16 +55,8 @@ class MainActivity : AppCompatActivity() {
 
         if(requestRuntimePermission()){
             initializeLayout()
-            //for retrieving favourites data using shared preferences
-
-            val editor = getSharedPreferences("musicPlayer", MODE_PRIVATE)
-            PlaylistActivity.musicPlaylist = MusicPlaylist()
-            val jsonStringPlaylist = editor.getString("MusicPlaylist", null)
-            if(jsonStringPlaylist != null){
-                val dataPlaylist: MusicPlaylist = GsonBuilder().create().fromJson(jsonStringPlaylist, MusicPlaylist::class.java)
-                PlaylistActivity.musicPlaylist = dataPlaylist
-            }
         }
+
 
         binding.shuffleBtn.setOnClickListener {
             val intent = Intent(this@MainActivity, PlayerActivity::class.java)
@@ -73,10 +64,11 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("class", "MainActivity")
             startActivity(intent)
         }
-
         binding.playlistBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, PlaylistActivity::class.java))
         }
+
+
         binding.navView.setNavigationItemSelectedListener{
             when(it.itemId)
             {
@@ -159,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
         //for refreshing layout on swipe from top
         binding.refreshLayout.setOnRefreshListener {
-            MusicListMA = getAllAudio()
+//            MusicListMA = getAllAudio()
             musicAdapter.updateMusicList(MusicListMA)
             binding.refreshLayout.isRefreshing = false
         }
@@ -229,10 +221,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        //for storing favourites data using shared preferences
-//        val editor = getSharedPreferences("musicPlayer", MODE_PRIVATE).edit()
-//        editor.apply()
 
         //for sorting
         val sortEditor = getSharedPreferences("SORTING", MODE_PRIVATE)
