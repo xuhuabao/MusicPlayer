@@ -193,8 +193,9 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
 //            .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
 //            .into(binding.songImgPA)
 
-        val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path)
+//        val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path)
 //        val artByteArray = getImgArt(musicListPA[songPosition].path)
+        val artByteArray = getImgArt(musicListPA[0].path)
         val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
         binding.songImgPA.setImageBitmap(bitmap)
 

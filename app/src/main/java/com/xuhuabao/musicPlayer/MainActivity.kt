@@ -18,6 +18,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import com.xuhuabao.musicPlayer.databinding.ActivityMainBinding
 import java.io.File
 
@@ -55,6 +57,15 @@ class MainActivity : AppCompatActivity() {
 
         if(requestRuntimePermission()){
             initializeLayout()
+
+            //for retrieving favourites data using shared preferences
+//            val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE)
+//            PlaylistActivity.musicPlaylist = MusicPlaylist()
+//            val jsonStringPlaylist = editor.getString("MusicPlaylist", null)
+//            if(jsonStringPlaylist != null){
+//                val dataPlaylist: MusicPlaylist = GsonBuilder().create().fromJson(jsonStringPlaylist, MusicPlaylist::class.java)
+//                PlaylistActivity.musicPlaylist = dataPlaylist
+//            }
         }
 
 
@@ -67,6 +78,8 @@ class MainActivity : AppCompatActivity() {
         binding.playlistBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, PlaylistActivity::class.java))
         }
+
+        Toast.makeText(this, "binding.playlistBtn", Toast.LENGTH_SHORT).show()
 
 
         binding.navView.setNavigationItemSelectedListener{
@@ -220,7 +233,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         //for sorting
         val sortEditor = getSharedPreferences("SORTING", MODE_PRIVATE)
         val sortValue = sortEditor.getInt("sortOrder", 0)

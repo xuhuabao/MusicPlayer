@@ -46,7 +46,6 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
         // 设置 Bitmap 到 ShapeableImageView
         holder.image.setImageBitmap(bitmap)
 
-
         when{
             playlistDetails ->{
                 holder.root.setOnClickListener {
@@ -62,6 +61,7 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
 
                 }
             }
+
             else ->{
                 holder.root.setOnClickListener {
                 when{
@@ -69,7 +69,7 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
                     musicList[position].id == PlayerActivity.nowPlayingId ->
                         sendIntent(ref = "NowPlaying", pos = PlayerActivity.songPosition)
                     else->sendIntent(ref="MusicAdapter", pos = position) } }
-        }
+            }
 
          }
     }
