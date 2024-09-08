@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.xuhuabao.musicPlayer.PlaylistDetails.Companion.currentPlaylistPos
 import com.xuhuabao.musicPlayer.databinding.ActivityPlayerBinding
 import com.xuhuabao.musicPlayer.databinding.AudioBoosterBinding
 
@@ -187,11 +188,15 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
 
     private fun setLayout(){
 
+//        Glide.with(applicationContext)
+//            .load(musicListPA[songPosition].artUri)
+//            .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
+//            .into(binding.songImgPA)
 
-        Glide.with(applicationContext)
-            .load(musicListPA[songPosition].artUri)
-            .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
-            .into(binding.songImgPA)
+//      val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path)
+        val artByteArray = getImgArt(musicListPA[songPosition].path) //
+        val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
+        binding.songImgPA.setImageBitmap(bitmap)
 
         binding.songNamePA.text = musicListPA[songPosition].title
         if(repeat) binding.repeatBtnPA.setColorFilter(ContextCompat.getColor(applicationContext, R.color.purple_500))
@@ -207,6 +212,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
                 R.drawable.music_player_icon_slash_screen
             )
         }
+
         val bgColor = getMainColor(image)
         val gradient = GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, intArrayOf(0xFFFFFF, bgColor))
         binding.root.background = gradient

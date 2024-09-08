@@ -2,6 +2,7 @@ package com.xuhuabao.musicPlayer
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -131,10 +132,11 @@ class PlaylistDetails : AppCompatActivity() {
                 "  -- ${PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].createdBy}"
         if(adapter.itemCount > 0)
         {
-            Glide.with(this)
-                .load(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].artUri)
-                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
-                .into(binding.playlistImgPD)
+            // 新方法
+            val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path) // 获取 ByteArray
+            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) } // 将 ByteArray 转换为 Bitmap
+            // 设置 Bitmap 到 ShapeableImageView
+            binding.playlistImgPD.setImageBitmap(bitmap)
         }
         adapter.notifyDataSetChanged()
 
