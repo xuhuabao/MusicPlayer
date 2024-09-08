@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -79,10 +80,7 @@ class PlaylistDetails : AppCompatActivity() {
                 return true
             }
 
-            override fun clearView(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ) {
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 super.clearView(recyclerView, viewHolder)
                 adapter.notifyDataSetChanged()
             }
@@ -97,9 +95,8 @@ class PlaylistDetails : AppCompatActivity() {
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.playlistDetailsRV)
-
-
         // ****************************** 拖动排序歌单 end *******************************
+
 
         binding.addBtnPD.setOnClickListener {
             startActivity(Intent(this, SelectionActivity::class.java))
@@ -118,14 +115,25 @@ class PlaylistDetails : AppCompatActivity() {
                 }
             val customDialog = builder.create()
             customDialog.show()
-
             setDialogBtnBackground(this, customDialog)
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
+        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show()
+
         binding.playlistNamePD.text = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].name
         binding.moreInfoPD.text = "Total ${adapter.itemCount} Songs.\n\n" +
                 "Created On:\n${PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].createdOn}\n\n" +
@@ -139,7 +147,21 @@ class PlaylistDetails : AppCompatActivity() {
             binding.playlistImgPD.setImageBitmap(bitmap)
         }
         adapter.notifyDataSetChanged()
+        save_favorite_lists()
+    }
 
+    override fun onStop() {
+        super.onStop()
+        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show()
+    }
+
+    fun save_favorite_lists(){
+        Toast.makeText(this, "storing favorite_lists", Toast.LENGTH_SHORT).show()
         //for storing data using shared preferences 保存列表数据
         val editor = getSharedPreferences("favorite_lists", MODE_PRIVATE).edit()
         val jsonStringPlaylist = GsonBuilder().create().toJson(PlaylistActivity.musicPlaylist)
