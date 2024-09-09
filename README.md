@@ -27,6 +27,9 @@
 <li>And Much More....
 </ul>
 
+<b>Attention : </b>
+   下载歌曲的属性（如title、专辑封面等）可能不存在，因此界面显示有所不同
+
 <b>Todo : </b>
 <ul>
 <li> 优化歌单歌曲左侧滑动移除
