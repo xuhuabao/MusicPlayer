@@ -27,6 +27,7 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
     class MyHolder(binding: PlaylistViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val image = binding.playlistImg
         val name = binding.playlistName
+        val numSongs = binding.numSongs
         val root = binding.root
     }
 
@@ -50,6 +51,7 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         holder.name.text = playlistList[position].name
         holder.name.isSelected = true
+        holder.numSongs.text = "Total songs\n${playlistList[position].playlist.size}"
 
         holder.root.setOnClickListener {
             val intent = Intent(context, PlaylistDetails::class.java)

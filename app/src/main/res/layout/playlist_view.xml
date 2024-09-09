@@ -34,4 +34,19 @@
         android:textSize="24sp"
         tools:ignore="MissingConstraints" />
 
+    <TextView
+        android:id="@+id/numSongs"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="25dp"
+        android:contentDescription="@string/total_songs"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="@string/total_songs"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        tools:ignore="MissingConstraints" />
+
+
+
 </LinearLayout>
