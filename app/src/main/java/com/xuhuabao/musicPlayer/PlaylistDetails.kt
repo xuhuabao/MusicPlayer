@@ -19,10 +19,10 @@ class PlaylistDetails : AppCompatActivity() {
     private lateinit var binding: ActivityPlaylistDetailsBinding
     private lateinit var adapter: MusicAdapter
     private lateinit var mplaylist: ArrayList<Music>
-    private var isChange:Boolean = false
 
     companion object{
         var currentPlaylistPos: Int = -1
+        var isChange:Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

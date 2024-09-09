@@ -90,20 +90,20 @@ class PlaylistActivity : AppCompatActivity() {
 
             musicPlaylist.ref.add(tempPlaylist)  // *************
             adapter.refreshPlaylist()  // *************
-            adapter.isChage = true
+            adapter.isChange = true
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (adapter.isChage || numList != adapter.itemCount) {  // *********
+        if (adapter.isChange || PlaylistDetails.isChange || numList != adapter.itemCount) {  // *********
             adapter.notifyDataSetChanged()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (adapter.isChage || numList != adapter.itemCount){
+        if (adapter.isChange || PlaylistDetails.isChange || numList != adapter.itemCount){
             save_favorite_lists() // 离开当前页面保存数据
         }
     }

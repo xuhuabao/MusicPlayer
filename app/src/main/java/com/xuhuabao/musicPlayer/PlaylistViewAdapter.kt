@@ -22,7 +22,7 @@ import com.xuhuabao.musicPlayer.databinding.PlaylistViewBinding
 
 
 class PlaylistViewAdapter(private val context: Context, private var playlistList: ArrayList<Playlist>) : RecyclerView.Adapter<PlaylistViewAdapter.MyHolder>() {
-    public var isChage:Boolean = false
+    var isChange:Boolean = false
 
     class MyHolder(binding: PlaylistViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val image = binding.playlistImg
@@ -84,7 +84,7 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
             .setPositiveButton("Delete") { dialog, _ ->
                 PlaylistActivity.musicPlaylist.ref.removeAt(position)
                 refreshPlaylist()
-                isChage=true
+                isChange=true
                 dialog.dismiss()
             }
         val dialog = builder.create()
@@ -109,7 +109,7 @@ class PlaylistViewAdapter(private val context: Context, private var playlistList
                 val inputText = editText.text.toString()
                 item.name = inputText
                 refreshPlaylist()
-                isChage = true
+                isChange = true
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ ->
