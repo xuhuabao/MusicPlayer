@@ -2,14 +2,14 @@ package com.xuhuabao.musicPlayer
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.xuhuabao.musicPlayer.PlaylistDetails.Companion.currentPlaylistPos
 import com.xuhuabao.musicPlayer.databinding.FragmentNowPlayingBinding
 
 class NowPlaying : Fragment() {
@@ -30,10 +30,17 @@ class NowPlaying : Fragment() {
         binding.nextBtnNP.setOnClickListener {
             setSongPosition(increment = true)
             PlayerActivity.musicService!!.createMediaPlayer()
-            Glide.with(requireContext())
-                .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)
-                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
-                .into(binding.songImgNP)
+
+//            Glide.with(requireContext())
+//                .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)
+//                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
+//                .into(binding.songImgNP)
+
+//          val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path)
+            val artByteArray = getImgArt(PlayerActivity.musicListPA[0].path)
+            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
+            binding.songImgNP.setImageBitmap(bitmap)
+
             binding.songNameNP.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title
             PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)
             playMusic()
@@ -52,10 +59,17 @@ class NowPlaying : Fragment() {
         if(PlayerActivity.musicService != null){
             binding.root.visibility = View.VISIBLE
             binding.songNameNP.isSelected = true
-            Glide.with(requireContext())
-                .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)
-                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
-                .into(binding.songImgNP)
+
+//            Glide.with(requireContext())
+//                .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)
+//                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
+//                .into(binding.songImgNP)
+
+//            val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path)
+            val artByteArray = getImgArt(PlayerActivity.musicListPA[0].path)
+            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
+            binding.songImgNP.setImageBitmap(bitmap)
+
             binding.songNameNP.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title
             if(PlayerActivity.isPlaying) binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
             else binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)

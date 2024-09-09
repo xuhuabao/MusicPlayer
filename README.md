@@ -14,6 +14,7 @@
   
  <b>Features👇 : </b>
 <ul>
+<li>Swipe to Refresh UI
 <li>Play/Pause Audio Using EarPhones
 <li>Custom Color Gradient According To Each Song Image
 <li>Create & Add Playlists
@@ -21,10 +22,8 @@
 <li>Audio Booster
 <li>Built-in System Equalizer
 <li>Audio Booster or Audio Amplifier
-<li>Swipe to Refresh UI
 <li>Background Playing with Custom Notification
 <li>Android 10 Notification with Seekbar
-<li>Decent UI with New Material Widgets
 <li>And Much More....
 </ul>
 
