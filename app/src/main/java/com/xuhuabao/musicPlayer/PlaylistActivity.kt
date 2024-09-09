@@ -2,6 +2,7 @@ package com.xuhuabao.musicPlayer
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -99,6 +100,7 @@ class PlaylistActivity : AppCompatActivity() {
         if (adapter.isChange || PlaylistDetails.isChange || numList != adapter.itemCount) {  // *********
             adapter.notifyDataSetChanged()
         }
+//        if(PlayerActivity.musicService != null) binding.nowPlaying.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {
