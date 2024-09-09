@@ -2,13 +2,14 @@ package com.xuhuabao.musicPlayer
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
 import com.xuhuabao.musicPlayer.databinding.ActivityPlaylistDetailsBinding
@@ -140,10 +141,10 @@ class PlaylistDetails : AppCompatActivity() {
 
         if(adapter.itemCount > 0)
         {
-            // 新方法
-            val artByteArray = getImgArt(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].path)
-            val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
-            binding.playlistImgPD.setImageBitmap(bitmap)
+            Glide.with(this)
+                .load(PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist[0].artUri)
+                .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
+                .into(binding.playlistImgPD)
         }
         adapter.notifyDataSetChanged()
     }

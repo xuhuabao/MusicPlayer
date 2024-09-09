@@ -2,11 +2,12 @@ package com.xuhuabao.musicPlayer
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.xuhuabao.musicPlayer.MusicAdapter.MyHolder
 import com.xuhuabao.musicPlayer.databinding.MusicViewBinding
 
@@ -30,10 +31,10 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
         holder.album.text = musicList[position].album
         holder.duration.text = formatDuration(musicList[position].duration)
 
-        // 新方法
-        val artByteArray = getImgArt(musicList[position].path)
-        val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
-        holder.image.setImageBitmap(bitmap)
+        Glide.with(context)
+            .load(musicList[position].artUri)
+            .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
+            .into(holder.image)
 
         when{
             playlistDetails ->{

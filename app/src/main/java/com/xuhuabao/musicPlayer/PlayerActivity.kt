@@ -67,10 +67,12 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             startService(intentService)
             musicListPA = ArrayList()
             musicListPA.add(getMusicDetails(intent.data!!))
+
             Glide.with(this)
                 .load(getImgArt(musicListPA[songPosition].path))
                 .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
                 .into(binding.songImgPA)
+
             binding.songNamePA.text = musicListPA[songPosition].title
         }
         else initializeLayout()
@@ -187,9 +189,11 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     }
 
     private fun setLayout(){
-        val artByteArray = getImgArt(musicListPA[0].path)
-        val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
-        binding.songImgPA.setImageBitmap(bitmap)
+
+        Glide.with(applicationContext)
+            .load(musicListPA[songPosition].artUri)
+            .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
+            .into(binding.songImgPA)
 
         binding.songNamePA.text = musicListPA[songPosition].title
         if(repeat) binding.repeatBtnPA.setColorFilter(ContextCompat.getColor(applicationContext, R.color.purple_500))
@@ -289,6 +293,12 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
             .load(musicListPA[songPosition].artUri)
             .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
             .into(NowPlaying.binding.songImgNP)
+
+//        val artByteArray = getImgArt(musicListPA[songPosition].path)
+//        val bitmap = artByteArray?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
+//        binding.songImgPA.setImageBitmap(bitmap)
+
+
         NowPlaying.binding.songNameNP.text = musicListPA[songPosition].title
     }
 
