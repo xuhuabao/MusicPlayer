@@ -63,6 +63,7 @@ class PlaylistDetails : AppCompatActivity() {
 
         binding.addBtnPD.setOnClickListener {
             startActivity(Intent(this, SelectionActivity::class.java))
+            adapter.notifyDataSetChanged() // 刷新歌单歌曲列表
             isChange = true // 2. 离开当前页面时保存歌单歌曲列表
         }
         binding.removeAllPD.setOnClickListener {
@@ -114,9 +115,6 @@ class PlaylistDetails : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         refreshInfo()  //刚打开页面绑定刷新info，添加歌曲返回后刷新info
-        if (isChange) {
-            adapter.notifyDataSetChanged()
-        }
     }
 
     override fun onStop() {
