@@ -8,13 +8,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
 import com.xuhuabao.musicPlayer.databinding.ActivityPlaylistDetailsBinding
-import java.util.Collections
+
 
 class PlaylistDetails : AppCompatActivity() {
 
@@ -50,13 +49,13 @@ class PlaylistDetails : AppCompatActivity() {
         //构造adapter： 哪个列表内容？musicPlaylist.ref[currentPlaylistPos]， 哪个Activity? playlistDetails
         adapter = MusicAdapter(this, mplaylist, playlistDetails = true)
         binding.playlistDetailsRV.adapter = adapter
-        refreshInfo()
+
 
         // 实现上下拖动排序，左滑删除
         val itemTouchHelperCallback = RecyclerViewItemTouchHelper(adapter, mplaylist) { position ->
-            Toast.makeText(this, "itemTouchHelperCallback at $position", Toast.LENGTH_SHORT).show()
-            refreshInfo()
-            isChange = true
+//            Toast.makeText(this, "itemTouchHelperCallback at $position", Toast.LENGTH_SHORT).show()
+            refreshInfo()  // 实时刷新，不需要保存
+            isChange = true // 1. 离开当前页面时保存歌单歌曲列表
         }
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.playlistDetailsRV)
@@ -64,7 +63,7 @@ class PlaylistDetails : AppCompatActivity() {
 
         binding.addBtnPD.setOnClickListener {
             startActivity(Intent(this, SelectionActivity::class.java))
-            isChange = true
+            isChange = true // 2. 离开当前页面时保存歌单歌曲列表
         }
         binding.removeAllPD.setOnClickListener {
             val builder = MaterialAlertDialogBuilder(this)
@@ -73,7 +72,7 @@ class PlaylistDetails : AppCompatActivity() {
                 .setPositiveButton("Yes"){ dialog, _ ->
                     mplaylist.clear()
                     adapter.refreshPlaylist()
-                    isChange = true
+                    isChange = true  // 3. 离开当前页面时保存歌单歌曲列表
                     dialog.dismiss()
                 }
                 .setNegativeButton("No"){dialog, _ ->
@@ -97,7 +96,7 @@ class PlaylistDetails : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    fun refreshInfo() {
+    fun refreshInfo() {  // 实时刷新，不需要保存
         binding.playlistNamePD.text = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].name
 
         if(adapter.itemCount > 0)
@@ -114,7 +113,10 @@ class PlaylistDetails : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        refreshInfo()
+        refreshInfo()  //刚打开页面绑定刷新info，添加歌曲返回后刷新info
+        if (isChange) {
+            adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onStop() {
