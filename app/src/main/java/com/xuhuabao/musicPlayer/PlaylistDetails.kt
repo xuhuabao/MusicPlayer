@@ -20,10 +20,12 @@ class PlaylistDetails : AppCompatActivity() {
     private lateinit var binding: ActivityPlaylistDetailsBinding
     private lateinit var adapter: MusicAdapter
     private lateinit var mplaylist: ArrayList<Music>
+    private var addChange = false
 
     companion object{
         var currentPlaylistPos: Int = -1
         var isChange:Boolean = false
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +65,8 @@ class PlaylistDetails : AppCompatActivity() {
 
         binding.addBtnPD.setOnClickListener {
             startActivity(Intent(this, SelectionActivity::class.java))
-            adapter.notifyDataSetChanged() // 刷新歌单歌曲列表
-            isChange = true // 2. 离开当前页面时保存歌单歌曲列表
+            isChange = true // 2. 离开当前页面时保存歌单歌曲列表s
+            addChange = true // 添加歌曲返回后执行 adapter.notifyDataSetChanged()
         }
         binding.removeAllPD.setOnClickListener {
             val builder = MaterialAlertDialogBuilder(this)
@@ -115,6 +117,9 @@ class PlaylistDetails : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         refreshInfo()  //刚打开页面绑定刷新info，添加歌曲返回后刷新info
+        if (addChange) {
+            adapter.notifyDataSetChanged() // 添加歌曲返回后刷新歌曲列表
+        }
     }
 
     override fun onStop() {
