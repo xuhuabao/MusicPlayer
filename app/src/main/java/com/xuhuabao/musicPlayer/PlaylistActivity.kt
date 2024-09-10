@@ -91,7 +91,14 @@ class PlaylistActivity : AppCompatActivity() {
 
             musicPlaylist.ref.add(tempPlaylist)  // *************
             adapter.refreshPlaylist()  // *************
-            adapter.isChange = true
+            adapter.isChange = true  // *************
+        }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        if (adapter.isChange || PlaylistDetails.isChange || numList != adapter.itemCount) {  // *********
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -100,7 +107,6 @@ class PlaylistActivity : AppCompatActivity() {
         if (adapter.isChange || PlaylistDetails.isChange || numList != adapter.itemCount) {  // *********
             adapter.notifyDataSetChanged()
         }
-//        if(PlayerActivity.musicService != null) binding.nowPlaying.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {

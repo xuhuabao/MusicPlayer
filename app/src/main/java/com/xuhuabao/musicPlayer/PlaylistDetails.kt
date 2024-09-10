@@ -3,6 +3,7 @@ package com.xuhuabao.musicPlayer
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -32,14 +33,14 @@ class PlaylistDetails : AppCompatActivity() {
         binding = ActivityPlaylistDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        currentPlaylistPos = intent.extras?.get("index") as Int
+        binding.backBtnPD.setOnClickListener { finish() }
 
+        currentPlaylistPos = intent.extras?.get("index") as Int
         try{
             PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist =
             checkPlaylist(playlist = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist)
         }
         catch(e: Exception){}
-
         mplaylist = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].playlist
 
         binding.playlistDetailsRV.setItemViewCacheSize(10)
@@ -49,55 +50,16 @@ class PlaylistDetails : AppCompatActivity() {
         //构造adapter： 哪个列表内容？musicPlaylist.ref[currentPlaylistPos]， 哪个Activity? playlistDetails
         adapter = MusicAdapter(this, mplaylist, playlistDetails = true)
         binding.playlistDetailsRV.adapter = adapter
-        binding.backBtnPD.setOnClickListener { finish() }
+        refreshInfo()
 
-        // ****************************** 拖动排序歌单 start *******************************
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT
-        ) {
-
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                val fromPosition = viewHolder.adapterPosition
-                val toPosition = target.adapterPosition
-
-                // 允许拖动到任意位置
-                if (fromPosition < toPosition) {
-                    for (i in fromPosition until toPosition) {
-                        Collections.swap(mplaylist, i, i + 1)
-                    }
-                } else {
-                    for (i in fromPosition downTo toPosition + 1) {
-                        Collections.swap(mplaylist, i, i - 1)
-                    }
-                }
-
-                // 通知适配器项目已移动
-                adapter.notifyItemMoved(fromPosition, toPosition)
-                return true
-            }
-
-            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-                super.clearView(recyclerView, viewHolder)
-                isChange = true
-                adapter.notifyDataSetChanged()
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                mplaylist.removeAt(position)
-                adapter.notifyItemRemoved(position)
-                Toast.makeText(this@PlaylistDetails, "onSwiped", Toast.LENGTH_SHORT).show()
-            }
-
+        // 实现上下拖动排序，左滑删除
+        val itemTouchHelperCallback = RecyclerViewItemTouchHelper(adapter, mplaylist) { position ->
+            Toast.makeText(this, "itemTouchHelperCallback at $position", Toast.LENGTH_SHORT).show()
+            refreshInfo()
+            isChange = true
         }
-
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.playlistDetailsRV)
-        // ****************************** 拖动排序歌单 end *******************************
 
 
         binding.addBtnPD.setOnClickListener {
@@ -123,6 +85,7 @@ class PlaylistDetails : AppCompatActivity() {
         }
     }
 
+
     override fun onRestart() {
         super.onRestart()
 
@@ -130,14 +93,12 @@ class PlaylistDetails : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onResume() {
-        super.onResume()
+    fun refreshInfo() {
         binding.playlistNamePD.text = PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].name
-        binding.moreInfoPD.text = "Total ${adapter.itemCount} Songs.\n\n" +
-                "Created On:\n${PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].createdOn}"
 
         if(adapter.itemCount > 0)
         {
@@ -146,7 +107,14 @@ class PlaylistDetails : AppCompatActivity() {
                 .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
                 .into(binding.playlistImgPD)
         }
-        adapter.notifyDataSetChanged()
+
+        binding.moreInfoPD.text = "Total ${adapter.itemCount} Songs.\n\n" +
+                "Created On:\n${PlaylistActivity.musicPlaylist.ref[currentPlaylistPos].createdOn}"
+    }
+
+    override fun onResume() {
+        super.onResume()
+//        refreshInfo()
     }
 
     override fun onStop() {

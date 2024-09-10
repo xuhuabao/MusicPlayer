@@ -29,12 +29,11 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         holder.title.text = musicList[position].title
         holder.album.text = musicList[position].album
-        holder.duration.text = formatDuration(musicList[position].duration)
-
         Glide.with(context)
             .load(musicList[position].artUri)
             .apply(RequestOptions().placeholder(R.drawable.music_player_icon_slash_screen).centerCrop())
             .into(holder.image)
+        holder.duration.text = formatDuration(musicList[position].duration)
 
         when{
             playlistDetails ->{
@@ -91,6 +90,11 @@ private val selectionActivity: Boolean = false): RecyclerView.Adapter<MyHolder>(
         }
         PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.add(song)
         return true
+    }
+
+    fun removeItem(position: Int) {
+        PlaylistActivity.musicPlaylist.ref[PlaylistDetails.currentPlaylistPos].playlist.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     fun refreshPlaylist(){
