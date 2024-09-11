@@ -148,39 +148,45 @@ class MainActivity : AppCompatActivity() {
 
         //for refreshing layout on swipe from top
         binding.refreshLayout.setOnRefreshListener {
-//            MusicListMA = getAllAudio()
+            MusicListMA = getAllAudio()
             musicAdapter.updateMusicList(MusicListMA)
             binding.refreshLayout.isRefreshing = false
         }
     }
+
 
     @SuppressLint("Recycle", "Range")
     private fun getAllAudio(): ArrayList<Music> {
         val tempList = ArrayList<Music>()
 
         // Filter Only Music or Audio Files
-        val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0 AND " + MediaStore.Audio.Media.MIME_TYPE + " LIKE 'audio/%'"
+        val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0 AND " + MediaStore.Audio.Media.MIME_TYPE + " LIKE 'audio/%' "
+
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.DISPLAY_NAME,
             MediaStore.Audio.Media.TITLE,
             MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.ARTIST,
             MediaStore.Audio.Media.DURATION,
             MediaStore.Audio.Media.DATE_ADDED,
-            MediaStore.Audio.Media.DATA,
+            MediaStore.Audio.Media.DATA,  // pathC
             MediaStore.Audio.Media.ALBUM_ID
         )
         val cursor = this.contentResolver.query(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null,
             sortingList[sortOrder], null
         )
+
         if (cursor != null) {
+//            Toast.makeText(this, cursor.count, Toast.LENGTH_SHORT).show()
             if (cursor.moveToFirst()) {
+
                 do {
-                    val titleC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)) ?: "Unknown"
-                    val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID)) ?: "Unknown"
-                    val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)) ?: "Unknown"
-                    val artistC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)) ?: "Unknown"
+                    val titleC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)) ?: "music title"
+                    val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID)) ?: "music_id"
+                    val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)) ?: "music album"
+                    val artistC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)) ?: "music_artist"
                     val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
                     val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
                     val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
